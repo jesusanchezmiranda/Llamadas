@@ -23,4 +23,6 @@
     <string name="switch1">getFilesDir</string>
     <string name="switch2">getExternalFilesDir</string>
     <string name="choose">Choose one option</string>
+    <string name="ringing">Phone is Ringing</string>
+    <string name="call">Call receiver</string>
 </resources>

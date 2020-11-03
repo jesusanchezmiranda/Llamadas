@@ -1,8 +1,5 @@
 package com.jesus.incomingcalls;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
 import java.util.Objects;
 import java.io.Serializable;
 
@@ -64,7 +61,6 @@ public class Call  implements Serializable, Comparable<Call>{
         return Objects.hash(tlf, nombre, datee);
     }
 
-
     @Override
     public int compareTo(Call call) {
 
@@ -79,7 +75,6 @@ public class Call  implements Serializable, Comparable<Call>{
 
     }
 
-
     public String toCsv(){
         return tlf + ";" + nombre + ";" + datee + "\n";
     }
@@ -93,9 +88,5 @@ public class Call  implements Serializable, Comparable<Call>{
         return c;
 
     }
-
-
-
-
 
 }

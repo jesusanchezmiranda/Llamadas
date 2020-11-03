@@ -36,7 +36,6 @@ public class FileClass extends AppCompatActivity {
         this.llamada = llamada;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,14 +49,12 @@ public class FileClass extends AppCompatActivity {
         return Objects.hash(llamada);
     }
 
-
     @Override
     public String toString() {
         return "FileClass{" +
                 "llamada=" + llamada +
                 '}';
     }
-
 
     public ArrayList<StringBuilder> readExternalFile(Context context) { //ORDENADO
         ArrayList<StringBuilder> calls = new ArrayList();
@@ -97,7 +94,6 @@ public class FileClass extends AppCompatActivity {
 
     }
 
-
     public boolean saveFile(Call c, Context cont) {
         boolean result = true;
         File f = new File(cont.getFilesDir(), "Historial.csv");
@@ -112,8 +108,6 @@ public class FileClass extends AppCompatActivity {
         }
         return result;
     }
-
-
 
     public ArrayList<StringBuilder> readFile(Context context) {
         ArrayList<StringBuilder> calls = new ArrayList();
@@ -135,12 +129,5 @@ public class FileClass extends AppCompatActivity {
         }
         return calls;
     }
-
-
-
-
-
-
-
 
 }

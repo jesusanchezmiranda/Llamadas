@@ -1,49 +1,27 @@
 package com.jesus.incomingcalls;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.preference.ListPreference;
 import androidx.preference.PreferenceManager;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.CallLog;
-import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.jesus.incomingcalls.Receptores.IncomingCallsReceiver;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -58,12 +36,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private boolean option1, option2;
     private String valor = "";
 
-
     private String[] codigosPermisos = {Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.READ_CALL_LOG,
             Manifest.permission.READ_CONTACTS};
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,15 +65,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
     }
-
-
 
     private void init() {
         tvText = findViewById(R.id.tvText);
@@ -109,21 +81,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         saveSharedPreferences();
 
-
         setOnTextView();
 
     }
 
     private void setOnTextView() {
-
-
         valor = sharedPreferences.getString("listPref", null);
-
-        Log.v("xxzz", valor);
 
         if (valor.equalsIgnoreCase("getfilesDir")) {
             // choice 1
-            Log.v(TAG, "estoy en getfilesdir");
             ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
             StringBuilder aux = new StringBuilder();
             for (int i = 0; i < lista.size(); i++) {
@@ -134,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         else if (valor.equalsIgnoreCase("getExternalfilesDir")){
             // choice 2
-            Log.v(TAG, "estoy en getExternalFilesDir");
             ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
             StringBuilder aux = new StringBuilder();
             for (int i = 0; i < lista.size(); i++) {
@@ -144,10 +109,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             tvText.setText(aux.toString());
         }
 
-
-
     }
-
 
     private void getPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -158,10 +120,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             if (phonePermission == PackageManager.PERMISSION_GRANTED && callPermission == PackageManager.PERMISSION_GRANTED && contactsPermission == PackageManager.PERMISSION_GRANTED) {
 
-//                Log.v(TAG, "Historial de llamadas a mostrar");
-//                IncomingCallsReceiver ic = new IncomingCallsReceiver();
-//                tvText.setText(ic.getCalls(MainActivity.this));
-//                Log.v(TAG, "Historial de llamadas MOSTRADAS");
 
             }else{
                 //you have to request the permissions that you haven´t got
@@ -176,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         } else {
             //do the next because you have all the permissions
-
         }
 
     }
@@ -235,10 +192,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.v(TAG, "key: "+key);
         valor = sharedPreferences.getString(key, "na");
-        Log.v(TAG, "value: " +valor);
-
 
     }
 

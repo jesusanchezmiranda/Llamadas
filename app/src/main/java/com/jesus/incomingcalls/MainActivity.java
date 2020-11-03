@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -51,9 +52,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     public static final String TAG = MainActivity.class.getName() + "xyzxy";
     private static final int PERMISO = 100;
-    private TextView tvText;
+    public static TextView tvText;
     private Button bt1, bt2;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private boolean option1, option2;
 
 
     private String[] codigosPermisos = {Manifest.permission.READ_PHONE_STATE,
@@ -95,14 +98,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         init();
     }
 
+
+
     private void init() {
         tvText = findViewById(R.id.tvText);
         bt1 = findViewById(R.id.bt1);
         bt2 = findViewById(R.id.bt2);
         getPermissions();
+
+        listener = this;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        //String END_POINT = sharedPreferences.getString("list_preference", "");
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+
+
+
 
         bt1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +138,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 tvText.setText(aux.toString());
             }
         });
+
+    }
+
+    private void setOnTextView(String valor) {
+
+
 
     }
 
@@ -219,6 +234,42 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.v(TAG, "key: "+key);
+        String valor = sharedPreferences.getString(key, "na");
+        Log.v(TAG, "value: " +valor);
 
+
+        if (valor.equalsIgnoreCase("getfilesDir")) {
+            // choice 1
+            Log.v(TAG, "hola");
+            ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
+            StringBuilder aux = new StringBuilder();
+            for (int i = 0; i < lista.size(); i++) {
+                aux.append(lista.get(i)).append("\n");
+            }
+
+            tvText.setText(aux.toString());
+        }
+        else if (valor.equalsIgnoreCase("getExternalfilesDir")){
+            // choice 2
+            Log.v(TAG, "puta");
+            ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
+            StringBuilder aux = new StringBuilder();
+            for (int i = 0; i < lista.size(); i++) {
+                aux.append(lista.get(i)).append("\n");
+            }
+
+            tvText.setText(aux.toString());
+        }
+
+
+
+
+//        boolean valorB = sharedPreferences.getBoolean(key, true);
+//        Boolean b = new Boolean(true);
+//        Log.v(TAG, "value: " + valorB);
     }
+
+
+
 }

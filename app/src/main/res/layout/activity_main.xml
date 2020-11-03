@@ -23,8 +23,7 @@
             <TextView
                 android:id="@+id/tvText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="MOSTRAR CONTACTOS" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 

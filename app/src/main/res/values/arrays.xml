@@ -16,4 +16,11 @@
         <item>getExternalfilesDir</item>
 
     </string-array>
+
+    <string-array name="optiones">
+        <item>getfilesDir</item>
+        <item>getExternalfilesDir</item>
+    </string-array>
+
+
 </resources>

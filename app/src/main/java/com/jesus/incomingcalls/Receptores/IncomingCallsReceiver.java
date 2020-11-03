@@ -1,29 +1,22 @@
 package com.jesus.incomingcalls.Receptores;
 
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.jesus.incomingcalls.Call;
 import com.jesus.incomingcalls.FileClass;
-import com.jesus.incomingcalls.MainActivity;
-import com.jesus.incomingcalls.SerializacionLlamadas;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 import static com.jesus.incomingcalls.MainActivity.TAG;
@@ -32,7 +25,6 @@ public class IncomingCallsReceiver extends BroadcastReceiver {
 
     FileClass fc = new FileClass();
     Call cc = new Call();
-    SerializacionLlamadas s = new SerializacionLlamadas();
 
     @Override
     public void onReceive(Context context, Intent intent) {

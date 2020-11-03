@@ -8,8 +8,6 @@ import java.io.Serializable;
 
 public class Call  implements Serializable, Comparable<Call>{
 
-    SerializacionLlamadas sl = new SerializacionLlamadas();
-
     private String tlf, nombre, datee;
 
     public Call() {

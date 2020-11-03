@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     public static final String TAG = MainActivity.class.getName() + "xyzxy";
     private static final int PERMISO = 100;
     public static TextView tvText;
-    private Button bt1, bt2;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private boolean option1, option2;
@@ -103,48 +102,26 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void init() {
         tvText = findViewById(R.id.tvText);
-        bt1 = findViewById(R.id.bt1);
-        bt2 = findViewById(R.id.bt2);
         getPermissions();
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
+        saveSharedPreferences();
 
 
-
-        bt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
-                StringBuilder aux = new StringBuilder();
-                for (int i = 0; i < lista.size(); i++) {
-                    aux.append(lista.get(i)).append("\n");
-                }
-                tvText.setText(aux.toString());
-
-
-            }
-        });
-
-        bt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
-                StringBuilder aux = new StringBuilder();
-                for (int i = 0; i < lista.size(); i++) {
-                    aux.append(lista.get(i)).append("\n");
-                }
-                tvText.setText(aux.toString());
-            }
-        });
+        setOnTextView();
 
     }
 
-    private void setOnTextView(String key) {
+    private void setOnTextView() {
 
 
-        if (key.equalsIgnoreCase("getfilesDir")) {
+        valor = sharedPreferences.getString("listPref", null);
+
+        Log.v("xxzz", valor);
+
+        if (valor.equalsIgnoreCase("getfilesDir")) {
             // choice 1
             Log.v(TAG, "estoy en getfilesdir");
             ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
@@ -155,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
             tvText.setText(aux.toString());
         }
-        else if (key.equalsIgnoreCase("getExternalfilesDir")){
+        else if (valor.equalsIgnoreCase("getExternalfilesDir")){
             // choice 2
             Log.v(TAG, "estoy en getExternalFilesDir");
             ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
@@ -262,15 +239,17 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         valor = sharedPreferences.getString(key, "na");
         Log.v(TAG, "value: " +valor);
 
-//        if (key.equals("display_text")) {
-//            setTextVisible(sharedPreferences.getBoolean("display_text",true));
-//        }
-
-
-        setOnTextView(key);
-
 
     }
-    
+
+    private void saveSharedPreferences() {
+        SharedPreferences preferences = getSharedPreferences("credenciales", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("listPref", valor);
+
+        editor.commit();
+    }
+
 
 }

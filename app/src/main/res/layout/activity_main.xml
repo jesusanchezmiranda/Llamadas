@@ -10,10 +10,10 @@
         android:id="@+id/scrollView2"
         android:layout_width="304dp"
         android:layout_height="488dp"
-        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,28 +23,8 @@
             <TextView
                 android:id="@+id/tvText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/bt1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="GetFilesDir"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/bt2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GetExternalFilesDir"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.693"
-        app:layout_constraintStart_toEndOf="@+id/bt1"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

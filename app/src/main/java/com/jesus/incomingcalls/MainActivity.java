@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private SharedPreferences sharedPreferences;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private boolean option1, option2;
+    private String valor = "";
 
 
     private String[] codigosPermisos = {Manifest.permission.READ_PHONE_STATE,
@@ -106,9 +107,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         bt2 = findViewById(R.id.bt2);
         getPermissions();
 
-        listener = this;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
 
 
@@ -141,7 +141,31 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
-    private void setOnTextView(String valor) {
+    private void setOnTextView(String key) {
+
+
+        if (key.equalsIgnoreCase("getfilesDir")) {
+            // choice 1
+            Log.v(TAG, "estoy en getfilesdir");
+            ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
+            StringBuilder aux = new StringBuilder();
+            for (int i = 0; i < lista.size(); i++) {
+                aux.append(lista.get(i)).append("\n");
+            }
+
+            tvText.setText(aux.toString());
+        }
+        else if (key.equalsIgnoreCase("getExternalfilesDir")){
+            // choice 2
+            Log.v(TAG, "estoy en getExternalFilesDir");
+            ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
+            StringBuilder aux = new StringBuilder();
+            for (int i = 0; i < lista.size(); i++) {
+                aux.append(lista.get(i)).append("\n");
+            }
+
+            tvText.setText(aux.toString());
+        }
 
 
 
@@ -235,41 +259,18 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.v(TAG, "key: "+key);
-        String valor = sharedPreferences.getString(key, "na");
+        valor = sharedPreferences.getString(key, "na");
         Log.v(TAG, "value: " +valor);
 
-
-        if (valor.equalsIgnoreCase("getfilesDir")) {
-            // choice 1
-            Log.v(TAG, "hola");
-            ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
-            StringBuilder aux = new StringBuilder();
-            for (int i = 0; i < lista.size(); i++) {
-                aux.append(lista.get(i)).append("\n");
-            }
-
-            tvText.setText(aux.toString());
-        }
-        else if (valor.equalsIgnoreCase("getExternalfilesDir")){
-            // choice 2
-            Log.v(TAG, "puta");
-            ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
-            StringBuilder aux = new StringBuilder();
-            for (int i = 0; i < lista.size(); i++) {
-                aux.append(lista.get(i)).append("\n");
-            }
-
-            tvText.setText(aux.toString());
-        }
+//        if (key.equals("display_text")) {
+//            setTextVisible(sharedPreferences.getBoolean("display_text",true));
+//        }
 
 
+        setOnTextView(key);
 
 
-//        boolean valorB = sharedPreferences.getBoolean(key, true);
-//        Boolean b = new Boolean(true);
-//        Log.v(TAG, "value: " + valorB);
     }
-
-
+    
 
 }

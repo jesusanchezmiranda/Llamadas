@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void setOnTextView() {
-        valor = sharedPreferences.getString("listPref", null);
+        valor = sharedPreferences.getString("listPref", "listPref");
 
         if (valor.equalsIgnoreCase("getfilesDir")) {
             // choice 1

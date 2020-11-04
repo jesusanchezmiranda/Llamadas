@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -75,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     private void init() {
         tvText = findViewById(R.id.tvText);
         getPermissions();
+        ArrayList<Call> calls = new ArrayList<>();
+        File f = new File(getApplicationContext().getExternalFilesDir(null), "Llamadas.csv");
+        if(!f.exists()){
+            f = new File(getApplicationContext().getExternalFilesDir(null), "Llamadas.csv");
+            fc.saveExternalFile(calls, getApplicationContext());
+        }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
@@ -90,17 +98,16 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         if (valor.equalsIgnoreCase("getfilesDir")) {
             // choice 1
-            ArrayList<StringBuilder> lista = fc.readFile(getApplicationContext());
+            ArrayList<Call> lista = fc.readFile(getApplicationContext());
             StringBuilder aux = new StringBuilder();
             for (int i = 0; i < lista.size(); i++) {
                 aux.append(lista.get(i)).append("\n");
             }
-
             tvText.setText(aux.toString());
         }
         else if (valor.equalsIgnoreCase("getExternalfilesDir")){
             // choice 2
-            ArrayList<StringBuilder> lista = fc.readExternalFile(MainActivity.this);
+            ArrayList<Call> lista = fc.readExternalFile(MainActivity.this);
             StringBuilder aux = new StringBuilder();
             for (int i = 0; i < lista.size(); i++) {
                 aux.append(lista.get(i)).append("\n");
@@ -119,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             int contactsPermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS);
 
             if (phonePermission == PackageManager.PERMISSION_GRANTED && callPermission == PackageManager.PERMISSION_GRANTED && contactsPermission == PackageManager.PERMISSION_GRANTED) {
-
 
             }else{
                 //you have to request the permissions that you haven´t got

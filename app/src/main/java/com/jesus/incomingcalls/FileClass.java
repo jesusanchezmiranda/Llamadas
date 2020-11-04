@@ -56,42 +56,67 @@ public class FileClass extends AppCompatActivity {
                 '}';
     }
 
-    public ArrayList<StringBuilder> readExternalFile(Context context) { //ORDENADO
-        ArrayList<StringBuilder> calls = new ArrayList();
+    public ArrayList<Call> readExternalFile(Context context) { //ORDENADO
+        ArrayList<Call> listaLlamdasObjetos = new ArrayList<>();
+        Call c1;
+        String linea;
         File f = new File(context.getExternalFilesDir(null), "Llamadas.csv");
         try {
             BufferedReader br = new BufferedReader(new FileReader(f));
-            String linea;
-            StringBuilder texto = new StringBuilder();
             while((linea = br.readLine()) != null) {
-                llamada.fromCsvString(linea, ";");
-                texto.append(linea);
-                texto.append('\n');
+                c1 = Call.fromCsvString2(linea);
+                listaLlamdasObjetos.add(c1);
             }
             br.close();
-            calls.add(texto);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listaLlamdasObjetos;
+    }
+
+    public boolean saveExternalFile(ArrayList<Call> calls, Context context) { //ORDENADO
+
+        boolean result = true;
+        File f = new File(context.getExternalFilesDir(null), "Llamadas.csv");
+        FileWriter fw = null;
+        if(!calls.isEmpty()){
+            try {
+                for (int i = 0; i < calls.size(); i++) {
+                    fw = new FileWriter(f, true);
+                    fw.write(calls.get(i).toString()+"\n");
+                }
+                fw.flush();
+                fw.close();
+            } catch (IOException e) {
+                result = false;
+            }
+        }
+
+        return result;
+
+    }
+
+
+    public ArrayList<Call> readFile(Context context) {
+        ArrayList<Call> calls = new ArrayList();
+        Call c1;
+        String linea="";
+        File f = new File(context.getFilesDir(), "Historial.csv");
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            while((linea = br.readLine()) != null) {
+                c1 = Call.fromCsvString(linea);
+                calls.add(c1);
+            }
+            br.close();
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return calls;
-    }
-
-    public boolean saveExternalFile(Call c, Context context) { //ORDENADO
-
-        boolean result = true;
-        File f = new File(context.getExternalFilesDir(null), "Llamadas.csv");
-        FileWriter fw = null;
-        try {
-            fw = new FileWriter(f,true);
-            fw.write(c.toString() + "\n");
-            fw.flush();
-            fw.close();
-        } catch (IOException e) {
-            result = false;
-        }
-        return result;
-
     }
 
     public boolean saveFile(Call c, Context cont) {
@@ -109,25 +134,6 @@ public class FileClass extends AppCompatActivity {
         return result;
     }
 
-    public ArrayList<StringBuilder> readFile(Context context) {
-        ArrayList<StringBuilder> calls = new ArrayList();
-        String linea;
-        File f = new File(context.getFilesDir(), "Historial.csv");
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(f));
-            StringBuilder texto = new StringBuilder();
-            while((linea = br.readLine()) != null) {
-                //llamada.fromCsvString(linea, ";");
-                texto.append(linea);
-                texto.append('\n');
-            }
-            br.close();
-            calls.add(texto);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return calls;
-    }
 
 }

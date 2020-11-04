@@ -17,7 +17,9 @@ import com.jesus.incomingcalls.FileClass;
 import com.jesus.incomingcalls.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.TimeZone;
 
 import static com.jesus.incomingcalls.MainActivity.TAG;
@@ -34,7 +36,6 @@ public class IncomingCallsReceiver extends BroadcastReceiver {
 
         try {
             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-
 
             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
                 String number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
@@ -79,11 +80,13 @@ public class IncomingCallsReceiver extends BroadcastReceiver {
         String datee = cursor.getString(fec);
 
         Calendar cal = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("YYYY; MM; dd; HH; mm; ss;");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy; MM; dd; HH; mm; ss;");
         format.setTimeZone(TimeZone.getTimeZone("GMT+1"));
         datee = format.format(cal.getTime());
 
         nombre = getContactName(tlf, context);
+
+        Log.v(TAG, tlf+nombre+datee);
 
         Call llamada = new Call(tlf, nombre, datee);
 
@@ -125,18 +128,21 @@ public class IncomingCallsReceiver extends BroadcastReceiver {
         @Override
         public void run() {
             super.run();
+            ArrayList<Call> calls;
+            ArrayList<String> cadenas;
             cc = getCalls(context);
             fc.saveFile(cc, context);
-            fc.readFile(context);
-            fc.saveExternalFile(cc, context);
-            fc.readExternalFile(context);
+            calls = fc.readFile(context);
+
+            Collections.sort(calls);
+            fc.saveExternalFile(calls, context);
+            //fc.readExternalFile(context);
+
+
+
 
         }
-
-
     }
-
-
 }
 
 

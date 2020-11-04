@@ -8,6 +8,7 @@ public class Call  implements Serializable, Comparable<Call>{
     private String tlf, nombre, datee;
 
     public Call() {
+        this("","", null);
     }
 
     public Call(String tlf, String nombre, String datee) {
@@ -79,11 +80,29 @@ public class Call  implements Serializable, Comparable<Call>{
         return tlf + ";" + nombre + ";" + datee + "\n";
     }
 
-    public static Call fromCsvString(String csv, String separator){
+    public static Call fromCsvString(String csv){
         Call c = null;
-        String[] partes = csv.split(separator);
-        if(partes.length ==3){
-            c = new Call (partes[0], partes[1], partes[2]);
+        String[] partes = csv.split(";");
+        if(partes.length ==8){
+            String tlf = partes[0].trim();
+            String nom = partes[1].trim();
+            String date = partes[2].trim()+"; " +partes[3].trim()+"; "+ partes[4].trim()+"; " +partes[5].trim()+"; "+partes[6].trim()+"; "+partes[7].trim()+"; ";
+
+            c = new Call (tlf, nom, date);
+        }
+        return c;
+
+    }
+
+    public static Call fromCsvString2(String csv){
+        Call c = null;
+        String[] partes = csv.split(";");
+        if(partes.length ==8){
+            String tlf = partes[0].trim();
+            String nom = partes[1].trim();
+            String date = partes[2].trim()+"; " +partes[3].trim()+"; "+ partes[4].trim()+"; " +partes[5].trim()+"; "+partes[6].trim()+"; "+partes[7].trim()+"; ";
+
+            c = new Call (tlf, nom, date);
         }
         return c;
 

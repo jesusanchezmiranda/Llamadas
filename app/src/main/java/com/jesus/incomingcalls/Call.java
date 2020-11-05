@@ -53,8 +53,8 @@ public class Call  implements Serializable, Comparable<Call>{
         if (!(o instanceof Call)) return false;
         Call call = (Call) o;
         return Objects.equals(nombre, call.nombre) &&
-                Objects.equals(tlf, call.tlf) &&
-                Objects.equals(datee, call.datee);
+                 Objects.equals(datee, call.datee)&&
+                Objects.equals(tlf, call.tlf);
     }
 
     @Override
@@ -76,10 +76,6 @@ public class Call  implements Serializable, Comparable<Call>{
 
     }
 
-    public String toCsv(){
-        return tlf + ";" + nombre + ";" + datee + "\n";
-    }
-
     public static Call fromCsvString(String csv){
         Call c = null;
         String[] partes = csv.split(";");
@@ -87,7 +83,6 @@ public class Call  implements Serializable, Comparable<Call>{
             String tlf = partes[0].trim();
             String nom = partes[1].trim();
             String date = partes[2].trim()+"; " +partes[3].trim()+"; "+ partes[4].trim()+"; " +partes[5].trim()+"; "+partes[6].trim()+"; "+partes[7].trim()+"; ";
-
             c = new Call (tlf, nom, date);
         }
         return c;
@@ -101,7 +96,6 @@ public class Call  implements Serializable, Comparable<Call>{
             String tlf = partes[0].trim();
             String nom = partes[1].trim();
             String date = partes[2].trim()+"; " +partes[3].trim()+"; "+ partes[4].trim()+"; " +partes[5].trim()+"; "+partes[6].trim()+"; "+partes[7].trim()+"; ";
-
             c = new Call (tlf, nom, date);
         }
         return c;

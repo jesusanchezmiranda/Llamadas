@@ -114,7 +114,6 @@ public class IncomingCallsReceiver extends BroadcastReceiver {
         return contactName;
     }
 
-
     public class Hebraca extends Thread {
 
         private Context context;
@@ -128,18 +127,12 @@ public class IncomingCallsReceiver extends BroadcastReceiver {
         @Override
         public void run() {
             super.run();
-            ArrayList<Call> calls;
-            ArrayList<String> cadenas;
+            ArrayList<Call> llamadas;
             cc = getCalls(context);
             fc.saveFile(cc, context);
-            calls = fc.readFile(context);
-
-            Collections.sort(calls);
-            fc.saveExternalFile(calls, context);
-            //fc.readExternalFile(context);
-
-
-
+            llamadas=fc.readFile(context);
+            Collections.sort(llamadas);
+            fc.saveExternalFile(llamadas, context);
 
         }
     }

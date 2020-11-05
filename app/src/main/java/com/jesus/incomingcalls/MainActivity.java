@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
-
+import java.util.Collections;
 
 
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         tvText = findViewById(R.id.tvText);
         getPermissions();
         ArrayList<Call> calls = new ArrayList<>();
+
         File f = new File(getApplicationContext().getExternalFilesDir(null), "Llamadas.csv");
         if(!f.exists()){
             f = new File(getApplicationContext().getExternalFilesDir(null), "Llamadas.csv");
@@ -107,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         else if (valor.equalsIgnoreCase("getExternalfilesDir")){
             // choice 2
-            ArrayList<Call> lista = fc.readExternalFile(MainActivity.this);
+            ArrayList<Call> lista = fc.readFile(MainActivity.this);
+            Collections.sort(lista);
             StringBuilder aux = new StringBuilder();
             for (int i = 0; i < lista.size(); i++) {
                 aux.append(lista.get(i)).append("\n");

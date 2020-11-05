@@ -55,36 +55,23 @@ public class FileClass extends AppCompatActivity {
                 "llamada=" + llamada +
                 '}';
     }
-
-    public ArrayList<Call> readExternalFile(Context context) { //ORDENADO
-        ArrayList<Call> listaLlamdasObjetos = new ArrayList<>();
-        Call c1;
-        String linea;
-        File f = new File(context.getExternalFilesDir(null), "Llamadas.csv");
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(f));
-            while((linea = br.readLine()) != null) {
-                c1 = Call.fromCsvString2(linea);
-                listaLlamdasObjetos.add(c1);
-            }
-            br.close();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return listaLlamdasObjetos;
-    }
-
-    public boolean saveExternalFile(ArrayList<Call> calls, Context context) { //ORDENADO
-
+    
+    public boolean saveExternalFile(ArrayList<Call> calls, Context context) {
         boolean result = true;
         File f = new File(context.getExternalFilesDir(null), "Llamadas.csv");
-        FileWriter fw = null;
+
+        if(!f.exists()){
+            try {
+                f.createNewFile();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         if(!calls.isEmpty()){
             try {
+                FileWriter fw = new FileWriter(f);
                 for (int i = 0; i < calls.size(); i++) {
-                    fw = new FileWriter(f, true);
                     fw.write(calls.get(i).toString()+"\n");
                 }
                 fw.flush();
@@ -97,7 +84,6 @@ public class FileClass extends AppCompatActivity {
         return result;
 
     }
-
 
     public ArrayList<Call> readFile(Context context) {
         ArrayList<Call> calls = new ArrayList();
@@ -133,7 +119,5 @@ public class FileClass extends AppCompatActivity {
         }
         return result;
     }
-
-
 
 }
